@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Criar sala — Transmissão{% endblock %}
+
+{% block content %}
+<section class="page-panel">
+  <div class="page-panel-header">
+    <h1>Criar sala</h1>
+  </div>
+
+  <form id="criar-sala-form" class="auth-form">
+    {% csrf_token %}
+    <label>
+      Nome da sala
+      <input type="text" name="nome" maxlength="120" required placeholder="Ex.: Sessão com amigos">
+    </label>
+    <p id="criar-sala-error" class="form-error" hidden></p>
+    <button type="submit" class="btn-block">Criar</button>
+  </form>
+
+  <p class="auth-switch"><a href="{% url 'transmissao:entrar' %}">Entrar com código</a></p>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/transmissao/salas.js' %}"></script>
+<script>
+  TransmissaoSalas.bindCriarForm(document.getElementById('criar-sala-form'));
+</script>
+{% endblock %}

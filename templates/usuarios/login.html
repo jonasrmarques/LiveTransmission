@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login — Transmissão{% endblock %}
+{% block body_class %}layout-auth{% endblock %}
+{% block main_class %}site-main-auth{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <div class="auth-card-header">
+    <h1>Login</h1>
+  </div>
+
+  <form id="login-form" class="auth-form" novalidate>
+    {% csrf_token %}
+    <label>
+      Nome de usuário
+      <input type="text" name="username" autocomplete="username" required>
+    </label>
+    <label>
+      Senha
+      <input type="password" name="password" autocomplete="current-password" required>
+    </label>
+    <p id="login-error" class="form-error" hidden></p>
+    <button type="submit" class="btn-block">Entrar</button>
+  </form>
+
+  <p class="auth-switch">Não tem conta? <a href="{% url 'usuarios:cadastro' %}">Cadastre-se</a></p>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/usuarios/auth.js' %}"></script>
+<script>
+  UsuariosAuth.bindLoginForm(document.getElementById('login-form'));
+</script>
+{% endblock %}

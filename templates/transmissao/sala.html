@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sala — Transmissão{% endblock %}
+{% block body_class %}layout-call{% endblock %}
+{% block main_class %}site-main-call{% endblock %}
+
+{% block content %}
+<section
+  class="call-shell room-panel"
+  data-sala-id="{{ sala_identificador }}"
+  data-user-id="{{ current_user_id }}"
+>
+  <div id="sala-loading" class="call-loading">Carregando sala…</div>
+
+  <div id="sala-content" class="call-layout" hidden>
+    <header class="call-topbar">
+      <div class="call-title">
+        <span class="call-hash">#</span>
+        <h1 id="sala-nome">Sala</h1>
+        <span id="sala-status" class="call-status-pill">aguardando</span>
+      </div>
+      <div class="call-topbar-meta">
+        <span class="muted">WS: <span id="ws-status">conectando…</span></span>
+        <button id="btn-sair" type="button" class="call-btn call-btn-ghost">Sair</button>
+      </div>
+    </header>
+
+    <div class="call-body">
+      <main class="call-stage">
+        <div class="stage-frame">
+          <p id="media-hint" class="stage-hint">Aguardando compartilhamento de tela…</p>
+          <video id="local-preview" class="media-player" playsinline muted hidden></video>
+          <video id="remote-player" class="media-player" playsinline autoplay controls hidden></video>
+        </div>
+        <div id="media-audio-actions" class="stage-audio-actions" hidden>
+          <button id="btn-ativar-audio" type="button" class="call-btn call-btn-primary">Ativar áudio</button>
+        </div>
+        <p id="media-audio-tip" class="stage-tip muted" hidden></p>
+        <p id="sala-error" class="form-error" hidden></p>
+        <p id="sala-success" class="form-success" hidden></p>
+      </main>
+
+      <aside class="call-sidebar">
+        <div class="sidebar-section">
+          <h2>Na sala — <span id="participant-count">0</span></h2>
+          <ul id="sala-participantes" class="member-list"></ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h2>Convite</h2>
+          <div class="invite-card">
+            <code id="sala-codigo" class="invite-code"></code>
+            <button id="btn-copiar-codigo" type="button" class="call-btn call-btn-ghost call-btn-sm">Copiar</button>
+          </div>
+          <a id="sala-link" class="invite-link" href="#" target="_blank" rel="noopener"></a>
+        </div>
+
+        <details class="sidebar-section event-details">
+          <summary>Atividade</summary>
+          <ul id="sala-eventos" class="event-log"></ul>
+        </details>
+      </aside>
+    </div>
+
+    <footer class="call-toolbar">
+      <div id="owner-controls" class="toolbar-group" hidden>
+        <button id="btn-compartilhar" type="button" class="call-btn call-btn-primary">Compartilhar tela</button>
+        <button id="btn-parar-stream" type="button" class="call-btn call-btn-danger" disabled>Parar</button>
+        <button id="btn-encerrar" type="button" class="call-btn call-btn-danger-outline">Encerrar sala</button>
+      </div>
+      <p class="toolbar-hint muted">
+        Para áudio do vídeo: compartilhe uma <strong>aba</strong> e marque <strong>Compartilhar áudio</strong>.
+      </p>
+    </footer>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/transmissao/websocket.js' %}"></script>
+<script src="{% static 'js/transmissao/webrtc.js' %}"></script>
+<script src="{% static 'js/transmissao/salas.js' %}"></script>
+<script>
+  TransmissaoSalas.bindSalaPage(document.querySelector('.room-panel'));
+</script>
+{% endblock %}

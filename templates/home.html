@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Transmissão{% endblock %}
+
+{% block content %}
+<section class="hub">
+  {% if user.is_authenticated %}
+    <div class="hub-hero">
+      <h1>Olá, {{ user.username }}</h1>
+    </div>
+
+    <div class="hub-actions hub-actions-main">
+      <a class="hub-card hub-card-primary" href="{% url 'transmissao:criar' %}">
+        <span class="hub-card-title">Criar sala</span>
+      </a>
+      <a class="hub-card" href="{% url 'transmissao:entrar' %}">
+        <span class="hub-card-title">Entrar numa sala</span>
+      </a>
+    </div>
+  {% else %}
+    <div class="hub-hero">
+      <h1>Transmissão</h1>
+    </div>
+
+    <div class="hub-actions hub-actions-main">
+      <a class="hub-card hub-card-primary" href="{% url 'usuarios:cadastro' %}">
+        <span class="hub-card-title">Criar conta</span>
+      </a>
+      <a class="hub-card" href="{% url 'usuarios:login' %}">
+        <span class="hub-card-title">Login</span>
+      </a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

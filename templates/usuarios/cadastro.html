@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastro — Transmissão{% endblock %}
+{% block body_class %}layout-auth{% endblock %}
+{% block main_class %}site-main-auth{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <div class="auth-card-header">
+    <h1>Criar conta</h1>
+  </div>
+
+  <form id="cadastro-form" class="auth-form" novalidate>
+    {% csrf_token %}
+    <label>
+      Nome de usuário
+      <input type="text" name="username" autocomplete="username" required maxlength="150">
+    </label>
+    <label>
+      E-mail
+      <input type="email" name="email" autocomplete="email" required>
+    </label>
+    <label>
+      Senha
+      <input type="password" name="password" autocomplete="new-password" required minlength="8">
+    </label>
+    <label>
+      Confirmar senha
+      <input type="password" name="password_confirm" autocomplete="new-password" required minlength="8">
+    </label>
+    <p id="cadastro-error" class="form-error" hidden></p>
+    <button type="submit" class="btn-block">Cadastrar</button>
+  </form>
+
+  <p class="auth-switch">Já tem conta? <a href="{% url 'usuarios:login' %}">Entrar</a></p>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/usuarios/auth.js' %}"></script>
+<script>
+  UsuariosAuth.bindCadastroForm(document.getElementById('cadastro-form'));
+</script>
+{% endblock %}

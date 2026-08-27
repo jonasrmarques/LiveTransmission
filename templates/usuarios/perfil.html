@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Perfil — Transmissão{% endblock %}
+
+{% block content %}
+<section class="page-panel">
+  <div class="page-panel-header">
+    <h1>Perfil</h1>
+  </div>
+
+  <div id="perfil-loading" class="muted">Carregando…</div>
+  <div id="perfil-content" hidden>
+    <div class="profile-summary">
+      <div class="profile-avatar" id="perfil-avatar">?</div>
+      <div>
+        <p class="profile-username" id="perfil-username"></p>
+        <p class="muted" id="perfil-email"></p>
+        <p class="muted" id="perfil-name"></p>
+      </div>
+    </div>
+
+    <form id="perfil-form" class="auth-form">
+      {% csrf_token %}
+      <label>
+        E-mail
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        Nome
+        <input type="text" name="first_name" maxlength="150">
+      </label>
+      <label>
+        Sobrenome
+        <input type="text" name="last_name" maxlength="150">
+      </label>
+      <p id="perfil-error" class="form-error" hidden></p>
+      <p id="perfil-success" class="form-success" hidden></p>
+      <button type="submit" class="btn-block">Salvar</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/usuarios/auth.js' %}"></script>
+<script>
+  UsuariosAuth.bindPerfilPage({
+    loadingEl: document.getElementById('perfil-loading'),
+    contentEl: document.getElementById('perfil-content'),
+    formEl: document.getElementById('perfil-form'),
+    fields: {
+      username: document.getElementById('perfil-username'),
+      email: document.getElementById('perfil-email'),
+      name: document.getElementById('perfil-name'),
+      avatar: document.getElementById('perfil-avatar'),
+    },
+  });
+</script>
+{% endblock %}

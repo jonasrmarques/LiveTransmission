@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Transmissão{% endblock %}</title>
+  {% load static %}
+  <link rel="icon" href="{% static 'favicon.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="{% url 'home' %}">Transmissão</a>
+      <nav class="site-nav">
+        {% if user.is_authenticated %}
+          <a href="{% url 'transmissao:criar' %}" class="nav-link">Criar</a>
+          <a href="{% url 'transmissao:entrar' %}" class="nav-link">Entrar</a>
+          <a href="{% url 'usuarios:perfil' %}" class="nav-link">Perfil</a>
+          <form id="logout-form" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="nav-link nav-link-muted">Sair</button>
+          </form>
+        {% endif %}
+      </nav>
+    </header>
+
+    <main class="site-main {% block main_class %}{% endblock %}">
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  {% if user.is_authenticated %}
+    <script src="{% static 'js/usuarios/auth.js' %}"></script>
+    <script>
+      document.getElementById('logout-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        UsuariosAuth.logout(event.target);
+      });
+    </script>
+  {% endif %}
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

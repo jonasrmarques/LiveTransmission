@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Entrar — Transmissão{% endblock %}
+
+{% block content %}
+<section class="page-panel">
+  <div class="page-panel-header">
+    <h1>Entrar na sala</h1>
+  </div>
+
+  <form id="entrar-sala-form" class="auth-form">
+    {% csrf_token %}
+    <label>
+      Código
+      <input type="text" name="codigo" maxlength="16" required value="{{ codigo }}" placeholder="AB12CD34" class="invite-input">
+    </label>
+    <p id="entrar-sala-error" class="form-error" hidden></p>
+    <button type="submit" class="btn-block">Entrar</button>
+  </form>
+
+  <p class="auth-switch"><a href="{% url 'transmissao:criar' %}">Criar sala</a></p>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/transmissao/salas.js' %}"></script>
+<script>
+  TransmissaoSalas.bindEntrarForm(document.getElementById('entrar-sala-form'));
+</script>
+{% endblock %}
